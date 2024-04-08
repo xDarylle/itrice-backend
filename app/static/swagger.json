@@ -1,0 +1,91 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ITrice API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/auth/signup": {
+      "post": {
+        "description": "User signup",
+        "parameters": [
+          {
+            "name": "user data",
+            "in": "body",
+            "description": "JSON data for the api",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserData"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful signup"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "description": "User login",
+        "parameters": [
+          {
+            "name": "Login data",
+            "in": "body",
+            "description": "JSON data for the api",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful login"
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "description": "User logout",
+        "responses": {
+          "200": {
+            "description": "Successful logout"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UserData": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        }
+      }
+    },
+    "LoginData": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
