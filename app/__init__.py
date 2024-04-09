@@ -2,12 +2,15 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_swagger_ui import get_swaggerui_blueprint
+from flask_cors import CORS
 
 # setup flask app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "secretkey123"
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SESSION_COOKIE_HTTPONLY'] = False
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 SWAGGER_URL="/swagger"
 API_URL="/static/swagger.json"
