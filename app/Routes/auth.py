@@ -25,7 +25,7 @@ class Signup(Resource):
             )
 
             user.create()
-            
+
             return Response(
                 status=201,
                 message="Successful registration"
@@ -57,6 +57,11 @@ class Login(Resource):
                 raise ValueError("Invalid Password")
 
             login_user(user, remember=remember)
+
+            return Response(
+                status=200,
+                message="Successful login"
+            )
         except NotFound:
             return Response(
                 status=404,

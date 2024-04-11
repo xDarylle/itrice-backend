@@ -8,6 +8,8 @@ This creates a table, and columns for user on the database.
 
 
 class User(UserMixin, db.Model, model.Component):
+    __tablename__ = "user"
+    
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, nullable=False)

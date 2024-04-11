@@ -13,3 +13,11 @@ class Component():
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+    def to_dict(self, exclude=[]):
+        dic = {}
+        for c in self.__table__.columns:
+            if c.name not in exclude:
+                dic[c.name] = getattr(self, c.name)
+
+        return dic

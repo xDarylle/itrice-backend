@@ -56,6 +56,93 @@
           }
         }
       }
+    },
+    "/api/production": {
+      "post": {
+        "description": "Create Production",
+        "parameters": [
+          {
+            "name": "ProductionData",
+            "in": "body",
+            "description": "JSON data for the api",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProductionData"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          }
+        }
+      },
+      "get": {
+        "description": "Get production list",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of production objects"
+          }
+        }
+      }
+    },
+    "/api/production/{productionId}": {
+      "put": {
+        "description": "Update a specific production",
+        "parameters": [
+          {
+            "name": "productionId",
+            "in": "path",
+            "description": "Numeric Id of production to update",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ProductionData",
+            "in": "body",
+            "description": "JSON data for the api",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProductionData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful production update"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a specific production",
+        "parameters": [
+          {
+            "name": "productionId",
+            "in": "path",
+            "description": "Numeric Id of production to delete",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful production delete"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -87,6 +174,26 @@
         },
         "remember": {
           "type": "boolean"
+        }
+      }
+    },
+    "ProductionData": {
+      "type": "object",
+      "properties": {
+        "irrigated": {
+          "type": "number",
+          "format": "float"
+        },
+        "rainfeed": {
+          "type": "number",
+          "format": "float"
+        },
+        "seedType": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
         }
       }
     }
