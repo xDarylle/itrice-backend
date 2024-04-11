@@ -5,27 +5,6 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/auth/signup": {
-      "post": {
-        "description": "User signup",
-        "parameters": [
-          {
-            "name": "user data",
-            "in": "body",
-            "description": "JSON data for the api",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserData"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Successful signup"
-          }
-        }
-      }
-    },
     "/api/auth/login": {
       "post": {
         "description": "User login",
@@ -92,7 +71,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Array of production objects"
+            "description": "Returns an array of production objects",
+            "schema": {
+              "$ref": "#/definitions/ProductionDataList"
+            }
           }
         }
       }
@@ -140,6 +122,98 @@
         "responses": {
           "200": {
             "description": "Successful production delete"
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "post": {
+        "description": "Create a new user",
+        "parameters": [
+          {
+            "name": "user data",
+            "in": "body",
+            "description": "JSON data for the api",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserData"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          }
+        }
+      },
+      "get": {
+        "description": "Get users list",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number to query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns an array of user objects",
+            "schema": {
+              "$ref": "#/definitions/UserDataList"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{userId}": {
+      "put": {
+        "description": "Update a specific users",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Numeric Id of user to update",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "user data",
+            "in": "body",
+            "description": "JSON data for the api",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful user update"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a specific users",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Numeric Id of user to update",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful user delete"
           }
         }
       }
@@ -194,6 +268,62 @@
         "date": {
           "type": "string",
           "format": "date"
+        }
+      }
+    },
+    "UserDataList": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ProductionDataList": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "irrigated": {
+                "type": "number",
+                "format": "float"
+              },
+              "rainfeed": {
+                "type": "number",
+                "format": "float"
+              },
+              "seedType": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string",
+                "format": "date"
+              }
+            }
+          }
         }
       }
     }

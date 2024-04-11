@@ -7,41 +7,6 @@ from app.Components.response import Response
 from werkzeug.exceptions import NotFound
 
 
-class Signup(Resource):
-    def post(self):
-        req = request.get_json()
-
-        name = req.get("name")
-        email = req.get("email")
-        password = req.get("password")
-        role = req.get("role")
-
-        try:
-            user = User(
-                name=name,
-                email=email,
-                password=generate_password_hash(password),
-                role=role,
-            )
-
-            user.create()
-
-            return Response(
-                status=201,
-                message="Successful registration"
-            )
-        except ValueError as e:
-            return Response(
-                status=409,
-                message="Email already taken!"
-            )
-        except Exception as e:
-            return Response(
-                status=500,
-                message=str(e)
-            )
-
-
 class Login(Resource):
     def post(self):
         req = request.get_json()
