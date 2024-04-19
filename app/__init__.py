@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_cors import CORS
+from flask_migrate import Migrate
 
 # setup flask app
 app = Flask(__name__)
@@ -25,6 +26,7 @@ swagger_ui_blueprint = get_swaggerui_blueprint(
 app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -39,6 +41,9 @@ generate_routes(app)
 with app.app_context():
     db.create_all()
     db.session.commit()
+
+    from app.Components.create_default_user import create_default_user
+    create_default_user()
 
 # this loads the user when user set remember me as true (default: remember_me = True)
 @login_manager.user_loader
