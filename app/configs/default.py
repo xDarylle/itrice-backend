@@ -1,4 +1,4 @@
 NAME = "admin"
-EMAIL = "admin"
+EMAIL = "admin@email.com"
 PASSWORD = "admin"
 ROLE = "admin"

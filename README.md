@@ -35,6 +35,6 @@ Go to http://127.0.0.1:5000/swagger/ for documentation
 To change default user credentials, go to `app/configs/default.py` and update the values then restart the app to apply changes.
 
 ```
-email: admin
+email: admin@email.com
 password: admin
 ```
