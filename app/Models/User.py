@@ -1,6 +1,7 @@
 from app import db
 from flask_login import UserMixin
 from app.Components import model
+from sqlalchemy.sql import func
 
 """
 This creates a table, and columns for user on the database.
@@ -15,6 +16,7 @@ class User(UserMixin, db.Model, model.Component):
     email = db.Column(db.Text, nullable=False)
     password = db.Column(db.Text, nullable=False)
     role = db.Column(db.Text, nullable=False)
+    dateCreated = db.Column(db.TIMESTAMP, server_default=func.now())
 
     # this checks if email exists in the database
     def create(self):

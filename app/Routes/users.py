@@ -18,6 +18,8 @@ class ManageUsers(Resource):
             for q in query:
                 user = q.to_dict()
                 del user["password"]
+                user["dateCreated"] = user["dateCreated"].strftime(
+                    "%Y-%m-%d %H:%M:%S")
                 user_list.append(user)
 
             return Response(

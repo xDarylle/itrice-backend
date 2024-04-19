@@ -18,8 +18,6 @@ class ProductionAPI(Resource):
 
         try:
             production = Production(
-                user=current_user,
-                # date=date,
                 irrigated=irrigated,
                 rainfeed=rainfeed,
                 seedType=seedType,
@@ -45,7 +43,10 @@ class ProductionAPI(Resource):
             query = Production.query.paginate(page=page, per_page=PER_PAGE)
             production_list = []
             for q in query:
-                production_list.append(q.to_dict())
+                q = q.to_dict()
+                q["dateCreated"] = q["dateCreated"].strftime(
+                    "%Y-%m-%d %H:%M:%S")
+                production_list.append(q)
 
             return Response(
                 status=200,

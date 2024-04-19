@@ -234,6 +234,10 @@
         },
         "role": {
           "type": "string"
+        },
+        "dateCreated": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     },
@@ -264,10 +268,6 @@
         },
         "seedType": {
           "type": "string"
-        },
-        "date": {
-          "type": "string",
-          "format": "date"
         }
       }
     },
@@ -290,6 +290,10 @@
               },
               "role": {
                 "type": "string"
+              },
+              "dateCreated": {
+                "type": "string",
+                "format": "date-time"
               }
             }
           }
@@ -318,9 +322,9 @@
               "seedType": {
                 "type": "string"
               },
-              "date": {
+              "dateCreated": {
                 "type": "string",
-                "format": "date"
+                "format": "date-time"
               }
             }
           }
