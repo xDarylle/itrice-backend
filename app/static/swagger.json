@@ -234,10 +234,6 @@
         },
         "role": {
           "type": "string"
-        },
-        "dateCreated": {
-          "type": "string",
-          "format": "date-time"
         }
       }
     },

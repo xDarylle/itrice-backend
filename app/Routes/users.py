@@ -5,6 +5,8 @@ from app.Models import User
 from app.Components.response import Response
 from werkzeug.exceptions import NotFound
 from werkzeug.security import generate_password_hash
+from app.configs.request_schema import UserData
+from app.Components.validate_request import validate_request
 
 
 class ManageUsers(Resource):
@@ -33,6 +35,7 @@ class ManageUsers(Resource):
             )
 
     @login_required
+    @validate_request(UserData)
     def post(self):
         req = request.get_json()
 
@@ -67,6 +70,7 @@ class ManageUsers(Resource):
             )
 
     @login_required
+    @validate_request(UserData)
     def put(self, userId):
         try:
             user = User.query.get_or_404(userId)

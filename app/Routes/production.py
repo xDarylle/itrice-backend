@@ -3,12 +3,13 @@ from flask import request
 from app.Models import Production
 from app.Components.response import Response
 from werkzeug.exceptions import NotFound
-from flask_login import login_required, current_user
-from datetime import datetime
-
+from flask_login import login_required
+from app.configs.request_schema import ProductionData
+from app.Components.validate_request import validate_request
 
 class ProductionAPI(Resource):
     @login_required
+    @validate_request(ProductionData)
     def post(self):
         req = request.get_json()
 
@@ -59,6 +60,7 @@ class ProductionAPI(Resource):
             )
 
     @login_required
+    @validate_request(ProductionData)
     def put(self, productionId):
         try:
             production = Production.query.get_or_404(productionId)
