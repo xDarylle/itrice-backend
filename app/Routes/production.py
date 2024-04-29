@@ -7,6 +7,7 @@ from flask_login import login_required
 from app.configs.request_schema import ProductionData
 from app.Components.validate_request import validate_request
 
+
 class ProductionAPI(Resource):
     @login_required
     @validate_request(ProductionData)
@@ -40,6 +41,13 @@ class ProductionAPI(Resource):
     def get(self):
         page = int(request.args["page"])
         PER_PAGE = 12
+
+        if not page:
+            return Response(
+                status=400,
+                message="Page number not specified"
+            )
+        
         try:
             query = Production.query.paginate(page=page, per_page=PER_PAGE)
             production_list = []

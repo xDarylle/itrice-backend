@@ -14,6 +14,13 @@ class ManageUsers(Resource):
     def get(self):
         page = int(request.args["page"])
         PER_PAGE = 12
+
+        if not page:
+            return Response(
+                status=400,
+                message="Page number not specified"
+            )
+
         try:
             query = User.query.paginate(page=page, per_page=PER_PAGE)
             user_list = []
