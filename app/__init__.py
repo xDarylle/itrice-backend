@@ -4,6 +4,8 @@ from flask_login import LoginManager
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_cors import CORS
 from flask_migrate import Migrate
+import pandas as pd
+
 
 # setup flask app
 app = Flask(__name__)
@@ -41,9 +43,25 @@ generate_routes(app)
 with app.app_context():
     db.create_all()
     db.session.commit()
-
+    
     from app.Components.create_default_user import create_default_user
     create_default_user()
+
+    ### Import data to database
+    c = input("Import data (y/n): ")
+    if(c == 'y'):
+        from app.Components.import_data import import_data
+        print("Reading data...")
+        df = pd.read_csv("data/iloilo.csv")
+        print("Importing data. Please wait...")
+        for index, row in df.iterrows():
+            date = row['date']
+            irrigated = row['irrigated']
+            rainfeed = row['rainfeed']
+            seed_type = row['seed_type']
+            import_data(date, irrigated, rainfeed, seed_type)
+        print("Importing done!")
+        
 
 # this loads the user when user set remember me as true (default: remember_me = True)
 @login_manager.user_loader
