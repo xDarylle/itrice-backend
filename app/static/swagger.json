@@ -217,6 +217,27 @@
           }
         }
       }
+    },
+    "/api/dashboard/trend": {
+      "get": {
+        "description": "Get trend for that year",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "description": "Year to query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          }
+        }
+      }
     }
   },
   "definitions": {
