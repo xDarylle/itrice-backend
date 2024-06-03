@@ -45,22 +45,24 @@ with app.app_context():
     db.session.commit()
     
     from app.Components.create_default_user import create_default_user
+    from app.Models.Production import Production
     create_default_user()
 
     ### Import data to database
-    c = input("Import data (y/n): ")
-    if(c == 'y'):
-        from app.Components.import_data import import_data
-        print("Reading data...")
-        df = pd.read_csv("data/iloilo.csv")
-        print("Importing data. Please wait...")
-        for index, row in df.iterrows():
-            date = row['date']
-            irrigated = row['irrigated']
-            rainfeed = row['rainfeed']
-            seed_type = row['seed_type']
-            import_data(date, irrigated, rainfeed, seed_type)
-        print("Importing done!")
+    if not Production.query.first():
+        c = input("Import data (y/n): ")
+        if(c == 'y'):
+            from app.Components.import_data import import_data
+            print("Reading data...")
+            df = pd.read_csv("data/iloilo.csv")
+            print("Importing data. Please wait...")
+            for index, row in df.iterrows():
+                date = row['date']
+                irrigated = row['irrigated']
+                rainfeed = row['rainfeed']
+                seed_type = row['seed_type']
+                import_data(date, irrigated, rainfeed, seed_type)
+            print("Importing done!")
         
 
 # this loads the user when user set remember me as true (default: remember_me = True)

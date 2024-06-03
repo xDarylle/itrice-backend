@@ -6,7 +6,7 @@ from werkzeug.exceptions import NotFound
 from flask_login import login_required
 from app.configs.request_schema import ProductionData
 from app.Components.validate_request import validate_request
-
+from sqlalchemy import desc
 
 class ProductionAPI(Resource):
     @login_required
@@ -39,7 +39,8 @@ class ProductionAPI(Resource):
 
     @login_required
     def get(self):
-        page = int(request.args["page"])
+        args = request.args
+        page = int(args["page"])
         PER_PAGE = 12
 
         if not page:
@@ -47,9 +48,16 @@ class ProductionAPI(Resource):
                 status=400,
                 message="Page number not specified"
             )
-        
+
         try:
-            query = Production.query.paginate(page=page, per_page=PER_PAGE)
+            query = []
+
+            if args.get("seedType"):
+                query = Production.query.filter(Production.seedType == args.get("seedType")).order_by(desc(Production.dateCreated)).paginate(
+                    page=page, per_page=PER_PAGE)
+            else:
+                query = Production.query.order_by(desc(Production.dateCreated)).paginate(page=page, per_page=PER_PAGE)
+           
             production_list = []
             for q in query:
                 q = q.to_dict()

@@ -67,6 +67,15 @@
             "schema": {
               "type": "integer"
             }
+          },
+          {
+            "name": "seedType",
+            "in": "query",
+            "description": "Query by seed type.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
