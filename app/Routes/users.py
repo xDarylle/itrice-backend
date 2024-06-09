@@ -7,6 +7,7 @@ from werkzeug.exceptions import NotFound
 from werkzeug.security import generate_password_hash
 from app.configs.request_schema import UserData
 from app.Components.validate_request import validate_request
+import math
 
 
 class ManageUsers(Resource):
@@ -23,7 +24,9 @@ class ManageUsers(Resource):
 
         try:
             query = User.query.paginate(page=page, per_page=per_page)
+            lastPage = math.ceil(len(User.query.all()) / per_page)
             user_list = []
+
             for q in query:
                 user = q.to_dict()
                 del user["password"]
@@ -33,7 +36,8 @@ class ManageUsers(Resource):
 
             return Response(
                 status=200,
-                data=user_list
+                data=user_list,
+                maxPage=lastPage
             )
         except Exception as e:
             return Response(

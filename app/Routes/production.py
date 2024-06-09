@@ -7,6 +7,8 @@ from flask_login import login_required
 from app.configs.request_schema import ProductionData
 from app.Components.validate_request import validate_request
 from sqlalchemy import desc
+import math
+
 
 class ProductionAPI(Resource):
     @login_required
@@ -51,13 +53,17 @@ class ProductionAPI(Resource):
 
         try:
             query = []
-
+            lastPage = None
             if args.get("seedType"):
                 query = Production.query.filter(Production.seedType == args.get("seedType")).order_by(desc(Production.dateCreated)).paginate(
                     page=page, per_page=per_page)
+                lastPage = math.ceil(len(Production.query.filter(
+                    Production.seedType == args.get("seedType")).all()) / per_page)
             else:
-                query = Production.query.order_by(desc(Production.dateCreated)).paginate(page=page, per_page=PER_PAGE)
-           
+                query = Production.query.order_by(
+                    desc(Production.dateCreated)).paginate(page=page, per_page=per_page)
+                lastPage = math.ceil(len(Production.query.all()) / per_page)
+
             production_list = []
             for q in query:
                 q = q.to_dict()
@@ -67,7 +73,8 @@ class ProductionAPI(Resource):
 
             return Response(
                 status=200,
-                data=production_list
+                data=production_list,
+                maxPage=lastPage
             )
         except Exception as e:
             return Response(
