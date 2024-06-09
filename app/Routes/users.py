@@ -13,7 +13,7 @@ class ManageUsers(Resource):
     @login_required
     def get(self):
         page = int(request.args["page"])
-        PER_PAGE = 12
+        per_page = int(request.args["maxItem"])
 
         if not page:
             return Response(
@@ -22,7 +22,7 @@ class ManageUsers(Resource):
             )
 
         try:
-            query = User.query.paginate(page=page, per_page=PER_PAGE)
+            query = User.query.paginate(page=page, per_page=per_page)
             user_list = []
             for q in query:
                 user = q.to_dict()

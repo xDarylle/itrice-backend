@@ -41,7 +41,7 @@ class ProductionAPI(Resource):
     def get(self):
         args = request.args
         page = int(args["page"])
-        PER_PAGE = 12
+        per_page = int(args["maxItem"])
 
         if not page:
             return Response(
@@ -54,7 +54,7 @@ class ProductionAPI(Resource):
 
             if args.get("seedType"):
                 query = Production.query.filter(Production.seedType == args.get("seedType")).order_by(desc(Production.dateCreated)).paginate(
-                    page=page, per_page=PER_PAGE)
+                    page=page, per_page=per_page)
             else:
                 query = Production.query.order_by(desc(Production.dateCreated)).paginate(page=page, per_page=PER_PAGE)
            

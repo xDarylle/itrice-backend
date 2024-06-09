@@ -69,6 +69,15 @@
             }
           },
           {
+            "name": "maxItem",
+            "in": "query",
+            "description": "Max number of items per page",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
             "name": "seedType",
             "in": "query",
             "description": "Query by seed type.",
@@ -162,6 +171,15 @@
             "name": "page",
             "in": "query",
             "description": "Page number to query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "maxItem",
+            "in": "query",
+            "description": "Max number of items per page",
             "required": true,
             "schema": {
               "type": "integer"
