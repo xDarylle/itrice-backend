@@ -265,6 +265,36 @@
           }
         }
       }
+    },
+    "/api/dashboard/quarterly": {
+      "get": {
+        "description": "Get quarterly for that year",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "description": "Year to query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "seedType",
+            "in": "query",
+            "description": "seedType to query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          }
+        }
+      }
     }
   },
   "definitions": {

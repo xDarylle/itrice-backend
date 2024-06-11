@@ -2,7 +2,7 @@ from flask_restful import Api
 from app.Routes.auth import Login, Logout
 from app.Routes.production import ProductionAPI
 from app.Routes.users import ManageUsers
-from app.Routes.dashboard import LinearRegressionAPI
+from app.Routes.dashboard import LinearRegressionAPI, QuarterlyAPI
 
 
 def generate_routes(app):
@@ -15,5 +15,6 @@ def generate_routes(app):
     api.add_resource(ManageUsers, "/api/users", "/api/users/<userId>")
 
     api.add_resource(LinearRegressionAPI, "/api/dashboard/trend")
+    api.add_resource(QuarterlyAPI, "/api/dashboard/quarterly")
     
     

@@ -69,6 +69,8 @@ class ProductionAPI(Resource):
                 q = q.to_dict()
                 q["dateCreated"] = q["dateCreated"].strftime(
                     "%Y-%m-%d %H:%M:%S")
+                q["irrigated"] = round(q["irrigated"], 2)
+                q["rainfeed"] = round(q["rainfeed"], 2)
                 production_list.append(q)
 
             return Response(
