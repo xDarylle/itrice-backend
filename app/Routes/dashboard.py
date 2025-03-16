@@ -12,7 +12,7 @@ import pandas as pd
 import calendar
 
 
-class LinearRegressionAPI(Resource):
+class LinearRegressionMonthlyAPI(Resource):
     @login_required
     def get(self):
         year = int(request.args["year"])
@@ -38,6 +38,34 @@ class LinearRegressionAPI(Resource):
             "rainfeed": rainfeed.values.tolist(),
             "rainfeed_trend": rainfeed_trend.tolist(),
             "month": [calendar.month_abbr[int(x)] for x in rainfeed.index]
+        }
+
+        return Response(
+            status=200,
+            data=trend
+        )
+
+class LinearRegressionYearlyAPI(Resource):
+    @login_required
+    def get(self):
+        query = Production.query.all()
+        data = [q.to_dict() for q in query]
+        df = pd.DataFrame(data)
+
+        irrigated = df.groupby(df['dateCreated'].dt.strftime('%Y'))[
+            'irrigated'].sum()
+        irrigated_trend = predict(irrigated.index, irrigated.values)
+
+        rainfeed = df.groupby(df['dateCreated'].dt.strftime('%Y'))[
+            'rainfeed'].sum()
+        rainfeed_trend = predict(rainfeed.index, rainfeed.values)
+
+        trend = {
+            "irrigated": irrigated.values.tolist(),
+            "irrigated_trend": irrigated_trend.tolist(),
+            "rainfeed": rainfeed.values.tolist(),
+            "rainfeed_trend": rainfeed_trend.tolist(),
+            "year": [x for x in rainfeed.index]
         }
 
         return Response(
@@ -92,4 +120,36 @@ class QuarterlyAPI(Resource):
                 {"rainfeed_trend": [round(i, 2)
                                     for i in quarterly_rainfeed_trend.tolist()]}
             ]
+        )
+
+
+class MonthlySummationAPI(Resource):
+    @login_required
+    def get(self):
+        args = request.args
+        year = int(args["year"])
+
+        query = Production.query.filter(
+                extract('year', Production.dateCreated) == year).all()
+        
+        if len(query) == 0:
+            return Response(
+                status=200,
+                data=[]
+            )
+        
+        data = [q.to_dict() for q in query]
+        df = pd.DataFrame(data)
+        irrigated = df.groupby(df['dateCreated'].dt.strftime('%m'))[
+            'irrigated'].sum()
+        rainfeed = df.groupby(df['dateCreated'].dt.strftime('%m'))[
+            'rainfeed'].sum()
+        
+        month = [calendar.month_abbr[int(x)] for x in rainfeed.index]
+        return Response(
+            status=200,
+            data= {
+                "irrigated": [{"month": month[i], "value":round(val, 2)} for i, val in enumerate(irrigated)],
+                "rainfeed": [{"month": month[i], "value":round(val, 2)} for i, val in enumerate(rainfeed)]
+                },
         )

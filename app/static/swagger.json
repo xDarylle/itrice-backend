@@ -245,7 +245,7 @@
         }
       }
     },
-    "/api/dashboard/trend": {
+    "/api/dashboard/trend/month": {
       "get": {
         "description": "Get trend for that year",
         "parameters": [
@@ -259,6 +259,16 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          }
+        }
+      }
+    },
+    "/api/dashboard/trend/year": {
+      "get": {
+        "description": "Get yearly",
         "responses": {
           "200": {
             "description": "Successful"
@@ -286,6 +296,27 @@
             "required": false,
             "schema": {
               "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          }
+        }
+      }
+    },
+    "/api/dashboard/summation": {
+      "get": {
+        "description": "Get month summation for that year",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "description": "Year to query",
+            "required": true,
+            "schema": {
+              "type": "integer"
             }
           }
         ],
