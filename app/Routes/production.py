@@ -7,6 +7,7 @@ from flask_login import login_required
 from app.configs.request_schema import ProductionData
 from app.Components.validate_request import validate_request
 from sqlalchemy import desc
+from datetime import datetime
 import math
 
 
@@ -19,12 +20,14 @@ class ProductionAPI(Resource):
         irrigated = req.get("irrigated")
         rainfeed = req.get("rainfeed")
         seedType = req.get("seedType")
+        dateCreated = req.get("dateCreated")
 
         try:
             production = Production(
                 irrigated=irrigated,
                 rainfeed=rainfeed,
                 seedType=seedType,
+                dateCreated=datetime.fromisoformat(dateCreated)
             )
 
             production.create()
@@ -94,10 +97,12 @@ class ProductionAPI(Resource):
             irrigated = req.get("irrigated")
             rainfeed = req.get("rainfeed")
             seedType = req.get("seedType")
+            dateCreated = req.get("dateCreated")
 
             production.irrigated = irrigated
             production.rainfeed = rainfeed
             production.seedType = seedType
+            production.dateCreated = datetime.fromisoformat(dateCreated)
 
             production.update()
 

@@ -13,6 +13,7 @@ class ProductionData(BaseModel):
     irrigated: StrictFloat
     rainfeed: StrictFloat
     seedType: StrictStr
+    dateCreated: StrictStr
 
 class UserData(BaseModel):
     name: StrictStr

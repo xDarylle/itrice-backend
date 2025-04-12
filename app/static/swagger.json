@@ -373,6 +373,9 @@
         },
         "seedType": {
           "type": "string"
+        },
+        "dateCreated": {
+          "type": "string"
         }
       }
     },
